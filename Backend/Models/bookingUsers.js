@@ -10,7 +10,14 @@ const bookingUserSchema = mongoose.Schema(
         dateOfBirth: {
             type: Date,
             required: true,
-            min: 18
+            validate: {
+                validator: function(value) {
+                    const today = new Date();
+                    const age = today.getFullYear() - value.getFullYear();
+                    return age >= 18
+                },
+                message: "User must be at least 18 years old"
+            }
         },
         email: {
             type: String,
@@ -20,6 +27,11 @@ const bookingUserSchema = mongoose.Schema(
         },
         password: {
             type: String,
+            required: true
+        },
+        role: {
+            type: String,
+            enum: ["creator", "viewer"],
             required: true
         },
 
@@ -39,7 +51,7 @@ const bookingUserSchema = mongoose.Schema(
         passwordResetToken: String,
         passwordResetTokenExpires: Date,
     },
-    { timeStamps: true }
+    { timestamps: true }
 );
 
 export const bookingUser = mongoose.model("bookingUser", bookingUserSchema)
