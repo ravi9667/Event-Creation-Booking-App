@@ -26,6 +26,11 @@ const EventSchema = mongoose.Schema(
             required: true,
             min: 1
         },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'blogUser',
+            required: true
+        },
         eventImage: {
             type: String,
             required: true
@@ -34,4 +39,4 @@ const EventSchema = mongoose.Schema(
     { timeStamps: true }
 );
 
-export const ticketCreation =  mongoose.model("Event", EventSchema);
+export const events = mongoose.model("Event", EventSchema);

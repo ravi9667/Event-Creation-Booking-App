@@ -1,33 +1,33 @@
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
-import { bookingUser } from "../Models/bookingUsers";
 import crypto from 'crypto';
-import { sendVerificationEmail } from "../utils/sendEmail";
+import { bookingUser } from "../../Models/bookingUsers";
+import { sendVerificationEmail } from "../../utils/sendEmail";
 
 export const signup = async (req, res) => {
     try {
-        const { name, dateOfBirth, email, password, role } = req.body
+        const { name, dateOfBirth, email, password, role } = req.body;
 
         if (!name || !dateOfBirth || !email || !password || !role) {
             return res.status(400).send({
                 ok: false,
                 message: "All Fields are Required !!"
-            })
+            });
         }
 
         if (!["creator", "viewer"].includes(role)) {
             return res.status(400).send({
                 ok: false,
                 message: "Invalid Role Selected"
-            })
+            });
         }
 
-        const existedUser = await bookingUser.findOne({email});
+        const existedUser = await bookingUser.findOne({ email });
         if (existedUser) {
             return res.status(409).send({
                 ok: false,
                 message: "Email Already Registered !!"
-            })
+            });
         }
 
         const hashed = await bcrypt.hash(password, 10);
@@ -42,7 +42,7 @@ export const signup = async (req, res) => {
             password: hashed,
             role,
             emailVerificationToken: emailToken,
-            emailVerificationTokenExpires: emailTokenExpire
+            emailVerificationTokenExpires: emailTokenExpire,
         });
 
         const token = jwt.sign(
@@ -56,21 +56,20 @@ export const signup = async (req, res) => {
 
         return res.status(200).send({
             ok: true,
-            message: "Signup successful. Please check your email to verify your account.",
+            message: "Signup successful. Please check your email to verify.",
             user: {
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
             },
-            token
+            token,
         });
 
-    } catch(err) {
+    } catch (err) {
         console.error("Signup error:", err);
         return res.status(500).send({
             ok: false,
-            message: "Internal server error", 
-            error: err 
+            message: "Internal Server Error",
         });
     }
-}
+};
