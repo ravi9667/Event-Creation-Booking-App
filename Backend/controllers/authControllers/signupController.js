@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import { bookingUser } from "../../Models/bookingUsers";
-import { sendVerificationEmail } from "../../utils/sendEmail";
+import { BookingUser } from "../../Models/bookingUsers.js";
+import { sendVerificationEmail } from "../../utils/sendEmail.js";
 
 export const signup = async (req, res) => {
     try {

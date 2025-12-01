@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { bookingUser } from "../../Models/bookingUsers";
+import { BookingUser } from '../../Models/bookingUsers.js';
 
 export const fetchUser = async (req, res) => {
     try {

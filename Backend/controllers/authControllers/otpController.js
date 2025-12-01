@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { bookingUser } from "../../Models/bookingUsers.js";
+import { BookingUser } from "../../Models/bookingUsers.js";
 
 export const verifyLoginOtp = async (req, res) => {
     try {

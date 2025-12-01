@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { events as EventsModel } from "../Models/events.js";
+import { Events as EventsModel } from "../../Models/events.js";
 
 // Update Event Controller
 export const updateEvent = async (req, res) => {

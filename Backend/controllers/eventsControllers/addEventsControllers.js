@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { events as EventsModel } from "../Models/events.js";
+import { Events } from "../../Models/events.js";
 
 export const addEvent = async (req, res) => {
     try {
@@ -14,7 +14,7 @@ export const addEvent = async (req, res) => {
             return res.status(400).send({ ok: false, message: "All fields including event image are required" });
         }
 
-        const newEvent = new EventsModel({
+        const newEvent = new Events({
             eventName,
             venueLocation,
             dateTime,

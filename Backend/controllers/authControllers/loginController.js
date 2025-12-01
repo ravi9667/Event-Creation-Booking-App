@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { bookingUser } from "../../Models/bookingUsers.js";
+import { BookingUser } from "../../Models/bookingUsers.js";
 import { sendVerificationEmail } from "../../utils/sendEmail.js";
 
 export const signIn = async (req, res) => {

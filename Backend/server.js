@@ -3,9 +3,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-import authRoutes from './routes/authRoutes';
-import userRoutes from "./routes/userRoutes";
-import eventsRoutes from "./routes/eventRoutes";
+import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import eventsRoutes from './routes/eventRoutes.js';
 
 dotenv.config()
 const app = express();

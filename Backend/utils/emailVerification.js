@@ -1,4 +1,4 @@
-import { bookingUser } from "../Models/bookingUsers";
+import { BookingUser } from "../Models/bookingUsers.js";
 
 export const verifyEmail = async (req, res) => {
     try {

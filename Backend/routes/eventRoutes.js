@@ -1,7 +1,10 @@
 import express from "express";
-import { addEvent, fetchAllEvents, fetchMyEvents, updateEvent } from "../controllers/eventController.js";
+import { addEvent } from "../controllers/eventsControllers/addEventsControllers.js";
+import {fetchAllEvents} from '../controllers/eventsControllers/allEventsControllers.js';
+import {fetchMyEvents} from '../controllers/eventsControllers/myEventsControllers.js';
+import { updateEvent } from "../controllers/eventsControllers/updateEventsControllers.js";
 import { verifyToken } from "../utils/verifyToken.js"; // JWT verification middleware
-import { upload } from "../middlewares/uploads.js";    // Multer for file upload
+import {upload} from "../Middleware/upload.js"  // Multer for file upload
 
 const router = express.Router();
 

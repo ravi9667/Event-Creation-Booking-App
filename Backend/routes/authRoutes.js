@@ -2,10 +2,10 @@ import express from "express";
 
 import { signup } from "../controllers/authControllers/signupController.js";
 import { signIn } from "../controllers/authControllers/loginController.js";
-import { verifyLoginOtp } from "../controllers/authControllers/otpController.js";
-import { forgotPassword, resetPassword } from "../controllers/authControllers/passwordController.js";
+import { verifyLoginOtp } from "../controllers/authControllers/otpController.js"
+import { forgotPassword, resetPassword } from "../controllers/authControllers/passwordController.js"
 
-import { verifyEmail } from "../utils/verifyEmail.js";
+import { verifyEmail } from "../utils/emailVerification.js";
 
 const router = express.Router();
 

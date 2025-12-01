@@ -1,4 +1,4 @@
-import { events as EventsModel } from "../../Models/events.js";
+import { Events as EventsModel } from "../../Models/events.js";
 
 export const fetchAllEvents = async (req, res) => {
     try {
