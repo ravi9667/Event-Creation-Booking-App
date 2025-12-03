@@ -7,10 +7,13 @@ import passIcon from "../../.././assets/padlock.png";
 import hide from "../../.././assets/hide.png";
 import show from "../../.././assets/eye.png";
 import illustration from "../../.././assets/illustration.png";
+import { postRequest } from "../../../apiRoutes";
 import "./Signup.scss";
 
 const Signup = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+    const [error, setError] = useState("");
     const [signupFormData, setSignupFormData] = useState({
         name: "",
         email: "",
@@ -23,32 +26,51 @@ const Signup = () => {
         setSignupFormData({ ...signupFormData, [field]: event.target.value });
     };
 
+    const handleSignup = async () => {
+        const { name, email, password, dateOfBirth, role } = signupFormData;
+
+        if ( !name.trim() || !email.trim() || !password.trim() || !dateOfBirth.trim() || !role.trim() ) {
+            setError("All fields are required");
+            return;
+        }
+
+        try {
+            const data = await postRequest("http://127.0.0.1:6060/api/auth/signup", signupFormData);
+
+            console.log("Signup Response:", data);
+
+            if (data.ok) {
+                localStorage.setItem("token", data.token);
+                alert("Signup Successful!");
+                navigate("/login");
+            } else {
+                setError(data.message || "Signup failed");
+            }
+
+        } catch (err) {
+            console.error("Signup Error:", err);
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div className="signup-container">
-
-            {/* LEFT SIDE */}
             <div className="signup-main">
                 <div className="signup-card">
-
-                    {/* Brand */}
                     <div className="app-brand">
                         <img src={logo} alt="App Logo" width={40} height={40} />
                         <h1 className="app-title">Evently</h1>
                     </div>
 
-                    {/* Heading */}
                     <div>
                         <h1>Create Account</h1>
                         <p>Join Evently to explore and create events</p>
                     </div>
 
-                    {/* TWO COLUMN INPUTS */}
                     <div className="inputs-wrapper">
-
-                        {/* LEFT COLUMN */}
                         <div className="left-column">
-
-                            {/* NAME */}
                             <div className="input-group group-1">
                                 <img src={userIcon} alt="" className="input-icon" />
                                 <input
@@ -62,7 +84,6 @@ const Signup = () => {
                                 <label>Full Name</label>
                             </div>
 
-                            {/* EMAIL */}
                             <div className="input-group group-1">
                                 <img src={emailIcon} alt="" className="input-icon" />
                                 <input
@@ -75,27 +96,34 @@ const Signup = () => {
                                 />
                                 <label>Email</label>
                             </div>
-
-                            {/* ROLE */}
-                            <div className="input-group group-1">
-                                <select
-                                    className="input role-select"
-                                    value={signupFormData.role}
-                                    onChange={(e) => handleFormInput("role", e)}
-                                >
-                                    <option value="" disabled>Select Role</option>
-                                    <option value="creator">Creator</option>
-                                    <option value="viewer">Viewer</option>
-                                </select>
-                                <label className="role-label">Select Role</label>
+                            <div className="role-radio-group">
+                                <p className="radio-title">Select Role</p>
+                                <div className="radio-selectors">
+                                    <label className="radio-option">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            value="creator"
+                                            checked={signupFormData.role === "creator"}
+                                            onChange={(e) => handleFormInput("role", e)}
+                                        />
+                                        Creator
+                                    </label>
+                                    <label className="radio-option">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            value="viewer"
+                                            checked={signupFormData.role === "viewer"}
+                                            onChange={(e) => handleFormInput("role", e)}
+                                        />
+                                        Viewer
+                                    </label>
+                                </div>
                             </div>
-
                         </div>
 
-                        {/* RIGHT COLUMN */}
                         <div className="right-column">
-
-                            {/* DOB */}
                             <div className="input-group group-1">
                                 <img src={dobIcon} alt="" className="input-icon" />
                                 <input
@@ -109,7 +137,6 @@ const Signup = () => {
                                 <label className="dob-label">Date of Birth</label>
                             </div>
 
-                            {/* PASSWORD */}
                             <div className="input-group group-2">
                                 <img src={passIcon} alt="" className="password-icon" />
                                 <input
@@ -131,26 +158,21 @@ const Signup = () => {
                                     />
                                 )}
                             </div>
-
                         </div>
                     </div>
-
-                    {/* BUTTON */}
-                    <button>Sign Up</button>
-
-                    <p>
-                        Already have an account?
-                        <button>Sign In</button>
-                    </p>
-
+                    <div>
+                        <button className="signup-btn" onClick={handleSignup}>Sign Up</button>
+                        <p className="already">
+                            Already have an account?
+                            <button>Sign In</button>
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            {/* RIGHT SIDE IMAGE */}
             <div className="signup-bg">
                 <img src={illustration} alt="" className="signup-illustrations" />
             </div>
-
         </div>
     );
 };

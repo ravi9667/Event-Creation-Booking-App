@@ -22,7 +22,7 @@ export const signup = async (req, res) => {
             });
         }
 
-        const existedUser = await bookingUser.findOne({ email });
+        const existedUser = await BookingUser.findOne({ email });
         if (existedUser) {
             return res.status(409).send({
                 ok: false,
@@ -35,7 +35,7 @@ export const signup = async (req, res) => {
         const emailToken = crypto.randomBytes(32).toString("hex");
         const emailTokenExpire = Date.now() + 15 * 60 * 1000; // 15 mins
 
-        const user = await bookingUser.create({
+        const user = await BookingUser.create({
             name,
             dateOfBirth,
             email,

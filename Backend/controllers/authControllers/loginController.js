@@ -13,7 +13,7 @@ export const signIn = async (req, res) => {
             });
         }
 
-        const user = await bookingUser.findOne({ email });
+        const user = await BookingUser.findOne({ email });
         if (!user) {
             return res.status(404).send({
                 ok: false,
