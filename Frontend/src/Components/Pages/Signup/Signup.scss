@@ -8,129 +8,137 @@ body {
     align-items: center;
     height: 100vh;
     width: 100vw;
-    padding: 40px;
+    padding: 0 50px;               /* ✅ Left–Right viewport space added */
     overflow: hidden;
+    box-sizing: border-box;
 
+    /* LEFT SIDE (FORM) */
     .signup-main {
+        width: 70%;                /* Reduced slightly for better spacing */
+        height: 100%;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 50%;
 
         .signup-card {
-            margin-bottom: 40px;
-            padding: 40px 30px;
-            width: 370px;
-            position: relative;
+            width: 100%;
+            max-width: 640px;
+            padding: 20px 10px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 20px;
+            gap: 25px;
 
+            /* Brand Logo */
             .app-brand {
-                width: 100%;
                 display: flex;
-                justify-content: flex-start;
-                margin-bottom: 20px;
+                align-items: center;
                 gap: 10px;
 
                 .app-title {
                     font-size: 32px;
-                    color: rgba(0, 0, 0, 0.87);
+                    color: #2b2b2b;
                     font-weight: bold;
                 }
             }
 
+            /* Heading */
             div {
                 align-self: flex-start;
 
                 h1 {
                     font-size: 32px;
-                    color: #2b2b2b;
-                    font-weight: bold;
                     margin-bottom: 5px;
+                    color: #2b2b2b;
                 }
             }
 
-            .input-group {
+            /* FLEX TWO COLUMN INPUTS */
+            .inputs-wrapper {
+                width: 100%;
                 display: flex;
-                flex-direction: column;
+                gap: 25px;
+
+                .left-column,
+                .right-column {
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                }
+            }
+
+            /* INPUT GROUP */
+            .input-group {
                 position: relative;
                 width: 100%;
 
                 input,
                 select {
                     width: 100%;
-                    border-radius: 5px;
-                    outline: none;
-                    border: 1px solid #ccc;
-                    background: #ffffff;
-                    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+                    padding: 16px 12px 16px 42px; /* ✔ Better text alignment */
+                    border-radius: 6px;
+                    border: 1px solid #c9c9c9;
+                    background: #fff;
                     font-size: 16px;
-                    padding: 17px 10px 17px 40px;
+                    line-height: 1.2;            /* ✔ Input text alignment fixed */
+                    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.08);
                 }
 
                 .dob-input {
-                    padding-left: 40px;
+                    padding-left: 42px;
                 }
 
+                /* Floating Label */
                 label {
                     position: absolute;
                     top: 25%;
-                    left: 40px;
-                    transition: all 0.3s ease;
-                    pointer-events: none;
-                    padding: 0 4px;
+                    left: 42px;
                     font-size: 15px;
+                    transition: 0.3s;
+                    pointer-events: none;
                 }
 
+                input:focus + label,
+                input:not(:placeholder-shown) + label,
+                select:focus + label,
+                select:not([value=""]) + label {
+                    top: -8px;
+                    left: 18px;
+                    font-size: 12px;
+                    background: #fff;
+                }
+
+                /* Icons */
                 .input-icon,
                 .password-icon {
                     position: absolute;
                     left: 12px;
                     top: 50%;
-                    transform: translateY(-50%);
                     width: 20px;
-                    opacity: 0.7;
+                    transform: translateY(-50%);
+                    opacity: 0.65;
                 }
 
                 .showIcon {
                     position: absolute;
-                    right: 16px;
+                    right: 12px;
                     top: 50%;
                     transform: translateY(-50%);
-                    width: 23px;
+                    width: 22px;
                     cursor: pointer;
                 }
-
-                input:focus+label,
-                input:not(:placeholder-shown)+label,
-                select:focus+label,
-                select:not([value=""])+label {
-                    top: -8px;
-                    left: 20px;
-                    background: white;
-                    font-size: 12px;
-                    color: #000;
-                }
             }
 
-            .role-select {
-                padding-left: 40px;
-                cursor: pointer;
-            }
-
+            /* BUTTON */
             button {
+                width: 100%;
                 padding: 12px 0;
                 border-radius: 7px;
-                border: 1px solid #ccc;
-                box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
                 background: linear-gradient(90deg, #f47c20 0%, #ff8c32 100%);
+                border: none;
                 color: #fff;
-                font-weight: 500;
                 font-size: 18px;
-                width: 100%;
+                font-weight: 500;
                 cursor: pointer;
 
                 &:hover {
@@ -139,11 +147,12 @@ body {
             }
 
             p {
-                font-family: sans-serif;
+                font-size: 14px;
+                text-align: center;
 
                 button {
                     all: unset;
-                    color: rgb(0, 89, 255);
+                    color: #0059ff;
                     text-decoration: underline;
                     cursor: pointer;
                 }
@@ -151,16 +160,18 @@ body {
         }
     }
 
+    /* RIGHT SIDE ILLUSTRATION */
     .signup-bg {
-        width: 50%;
+        width: 30%;                     /* Adjusted to look clean */
         height: 100%;
-        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .signup-illustrations {
-            position: absolute;
-            width: 100%;
-            top: -50px;
-            left: -100px;
+            width: 80%;                 /* ✔ Reduced image size */
+            height: auto;
+            object-fit: contain;        /* ✔ Proper scaling */
         }
     }
 }

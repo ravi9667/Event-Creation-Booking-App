@@ -4,13 +4,15 @@ import Signup from "./Components/Pages/Signup/Signup";
 import './App.scss';
 
 const App = () => {
-    <div className="app-container">
-        <h1>Hello</h1>
-        <Signup />
-        {/* <Routes>
-            <Route path="/" element={ <Signup /> } />
-        </Routes> */}
-    </div>
+
+    return (
+
+        <div className="app-container">
+            <Routes>
+                <Route path="/signup" element={ <Signup /> } />
+            </Routes>
+        </div>
+    )
 }
 
 export default App;
