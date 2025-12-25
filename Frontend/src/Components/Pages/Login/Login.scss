@@ -36,6 +36,7 @@
             flex-direction: column;
             width: 100%;
             gap: 5px;
+
             h1 {
                 font-size: 32px;
                 color: #ffffff;
@@ -52,7 +53,7 @@
             display: flex;
             flex-direction: column;
             gap: 30px;
-            
+
 
             .input-group {
                 position: relative;
@@ -68,15 +69,17 @@
                     filter: invert(10) brightness(100%) saturate(0%) contrast(100%);
                     opacity: 0.75;
                 }
+
                 input {
                     width: 100%;
-                    padding: 16px 100%;
+                    padding: 16px 150px 16px 50px;
                     border-radius: 6px;
                     border: 1px solid #444;
                     background: #2a2a2a;
                     color: #fff;
                     font-size: 16px;
                 }
+
                 label {
                     position: absolute;
                     top: 32%;
@@ -86,16 +89,18 @@
                     color: #d1d1d1;
                 }
 
-                input:focus~label,
-                input:focus~label {
+                input:focus+label,
+                input:not(:placeholder-shown)+label {
                     top: -8px;
                     left: 40px;
                     font-size: 12px;
                     background-color: #222222;
                     padding: 0 4px;
                 }
+
             }
         }
+
         .btn-box {
             display: flex;
             flex-direction: column;
@@ -107,6 +112,7 @@
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 text-align: center;
             }
+
             .login-btn {
                 width: 100%;
                 padding: 10px 172px;
@@ -122,17 +128,19 @@
                 background: linear-gradient(90deg, #007bff, #00a2ff);
                 font-size: 20px;
             }
+
             p {
                 text-align: center;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
                 button {
                     all: unset;
-                    color:#007bff;
+                    color: #007bff;
                 }
             }
         }
     }
+
     .login-bg {
         width: 60%;
 

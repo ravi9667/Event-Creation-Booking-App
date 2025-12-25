@@ -15,13 +15,14 @@ const Login = () => {
         email: "",
         password: ""
     });
+    console.log(loginFormData)
 
     const handleFormInput = (field, event) => {
         setLoginFormData({ ...loginFormData, [field]: event.target.value });
     };
    
-    const handleSignup = async () => {
-        const { email, password} = signupFormData;
+    const handlelogin = async () => {
+        const { email, password} = loginFormData;
 
         if ( !email.trim() || !password.trim() ) {
             setError("All fields are required");
@@ -30,7 +31,7 @@ const Login = () => {
         }
 
         try {
-            const data = await postRequest("http://127.0.0.1:6060/api/auth/login", signupFormData);
+            const data = await postRequest("http://127.0.0.1:6060/api/auth/login", loginFormData);
 
             console.log("login Response:", data);
 
