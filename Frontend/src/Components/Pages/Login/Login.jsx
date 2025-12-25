@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import illustration from '../../../assets/illustration.png';
 import logo from "../../../assets/electronics-arts.png";
 import emailIcon from "../../../assets/mail.png";
@@ -17,9 +17,9 @@ const Login = () => {
     });
 
     const handleFormInput = (field, event) => {
-        setSignupFormData({ ...signupFormData, [field]: event.target.value });
+        setLoginFormData({ ...loginFormData, [field]: event.target.value });
     };
-
+   
     const handleSignup = async () => {
         const { email, password} = signupFormData;
 
@@ -65,11 +65,12 @@ const Login = () => {
                     <div className="input-group">
                         <img src={emailIcon} alt="Email-icon" />
                         <input
-                            type="text"
+                            type="text" 
                             className="input"
                             placeholder=" "
                             required
                             value={loginFormData.email}
+                            onChange={(e) => handleFormInput("email", e)}
                         />
                         <label htmlFor="">Email</label>
                     </div>
@@ -80,7 +81,8 @@ const Login = () => {
                             className="input"
                             placeholder=" "
                             required
-                            value={loginFormData.āśśōr̥ḍ}
+                            value={loginFormData.password}
+                            onChange={(e) => handleFormInput("password", e)}
                         />
                         <label htmlFor="">Password</label>
                     </div>
