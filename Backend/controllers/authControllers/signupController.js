@@ -7,6 +7,7 @@ import { sendVerificationEmail } from "../../utils/sendEmail.js";
 export const signup = async (req, res) => {
     try {
         const { name, dateOfBirth, email, password, role } = req.body;
+        console.log(req.body)
 
         if (!name || !dateOfBirth || !email || !password || !role) {
             return res.status(400).send({

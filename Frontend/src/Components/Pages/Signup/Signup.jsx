@@ -31,6 +31,7 @@ const Signup = () => {
 
         if ( !name.trim() || !email.trim() || !password.trim() || !dateOfBirth.trim() || !role.trim() ) {
             setError("All fields are required");
+            alert(error)
             return;
         }
 

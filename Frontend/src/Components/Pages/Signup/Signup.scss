@@ -178,7 +178,7 @@ body {
     }
 
     .signup-bg {
-        width: 30%;
+        width: 50%;
         height: 100%;
         display: flex;
         justify-content: center;
@@ -188,7 +188,6 @@ body {
             width: 100%;
             object-fit: contain;
             filter: brightness(0.8);
-            /* slight dark theme effect */
         }
     }
 }
