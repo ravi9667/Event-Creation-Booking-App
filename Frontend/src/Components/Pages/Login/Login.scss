@@ -127,6 +127,11 @@
                 align-items: center;
                 background: linear-gradient(90deg, #007bff, #00a2ff);
                 font-size: 20px;
+
+                &:hover {
+                    background: linear-gradient(90deg, #0051ff, #0099ff);
+                    cursor: pointer;
+                }
             }
 
             p {
