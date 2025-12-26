@@ -92,7 +92,6 @@ body {
                     background-color: #222222;
                     padding: 0 4px;
                 }
-
                 .input-icon,
                 .password-icon {
                     position: absolute;
@@ -110,6 +109,7 @@ body {
                     top: 50%;
                     width: 22px;
                     transform: translateY(-50%);
+                    filter: invert(10) brightness(100%) saturate(0%) contrast(100%);
                     cursor: pointer;
                 }
             }

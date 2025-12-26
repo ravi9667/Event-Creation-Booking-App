@@ -126,7 +126,7 @@ const Signup = () => {
 
                         <div className="right-column">
                             <div className="input-group group-1">
-                                <img src={dobIcon} alt="" className="input-icon" />
+                                <img src={dobIcon} alt="" className="input-icon dob-icon" />
                                 <input
                                     type="date"
                                     className="input dob-input"
@@ -141,7 +141,7 @@ const Signup = () => {
                             <div className="input-group group-2">
                                 <img src={passIcon} alt="" className="password-icon" />
                                 <input
-                                    type={isPasswordHidden ? "password" : "text"}
+                                    type={isPasswordHidden ? "password" : "text" }
                                     className="input"
                                     placeholder=" "
                                     required

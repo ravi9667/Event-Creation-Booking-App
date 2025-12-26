@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router";
 import Signup from "./Components/Pages/Signup/Signup";
 import Login from "./Components/Pages/Login/Login";
+import Events from "./Components/Pages/Events/Event";
 import './App.scss';
 
 const App = () => {
@@ -10,7 +11,8 @@ const App = () => {
         <div className="app-container">
             <Routes>
                 <Route path="/signup" element={ <Signup /> } />
-                <Route path="/login" element={ <Login /> } />
+                <Route path="/" element={ <Login /> } />
+                <Route path="/events" element={ <Events /> } />
             </Routes>
         </div>
     )

@@ -41,11 +41,13 @@ const Login = () => {
                 navigate("/login");
             } else {
                 setError(data.message || "login failed");
+                console.log(error)
             }
 
         } catch (err) {
             console.error("login Error:", err);
             setError("Something went wrong. Please try again.");
+            console.log(error)
         } finally {
             setIsLoading(false);
         }
@@ -64,7 +66,7 @@ const Login = () => {
                 </div>
                 <div className="inputs-wrapper">
                     <div className="input-group">
-                        <img src={emailIcon} alt="Email-icon" />
+                        <img src={emailIcon} alt="Email-icon" className="img" />
                         <input
                             type="text" 
                             className="input"
@@ -76,9 +78,9 @@ const Login = () => {
                         <label htmlFor="">Email</label>
                     </div>
                     <div className="input-group">
-                        <img src={passIcon} alt="Password-icon" />
+                        <img src={passIcon} alt="Password-icon" className="img" />
                         <input
-                            type="password"
+                            type={isPasswordHidden ? "password" : "text" }
                             className="input"
                             placeholder=" "
                             required
@@ -86,6 +88,14 @@ const Login = () => {
                             onChange={(e) => handleFormInput("password", e)}
                         />
                         <label htmlFor="">Password</label>
+                        {loginFormData.password.length > 0 && (
+                            <img
+                                src={isPasswordHidden ? hide : show}
+                                className="showIcon"
+                                alt="toggle"
+                                onClick={() => setIsPasswordHidden(!isPasswordHidden)}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className="btn-box">
