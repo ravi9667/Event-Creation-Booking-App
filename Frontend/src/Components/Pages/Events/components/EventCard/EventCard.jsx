@@ -26,8 +26,8 @@ const EventCard = ({
 
             <div className="event-details">
                 <h3>{event.title}</h3>
-                <p>{event.venue}</p>
-                <p>{event.date}</p>
+                <p className="event">{event.venue}</p>
+                <p className="event">{event.date}</p>
                 <div className="pricing">
                     <p className="event-price">₹ {event.price}</p>
                     {/* 🛒 / ✅ BUY STATUS ICON */}
