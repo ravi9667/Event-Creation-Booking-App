@@ -1,0 +1,139 @@
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+/* MODAL CARD */
+.buy-modal {
+    width: 420px;
+    background: linear-gradient(180deg, #0f1221, #0b0e1a);
+    border-radius: 20px;
+    padding: 30px;
+    color: #fff;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    animation: modalFade 0.25s ease;
+}
+
+@keyframes modalFade {
+    from {
+        transform: translateY(10px) scale(0.97);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.buy-modal h2 {
+    margin-bottom: 18px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* EVENT INFO */
+.event-info {
+    background: #151933;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    // gap: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.event-info .title {
+    font-weight: 600;
+    font-size: 17px;
+    margin-bottom: 4px;
+}
+
+.event-info p {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+/* ROWS */
+.price-row,
+.qty-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+/* INPUT */
+.qty-row input {
+    width: 90px;
+    padding: 8px;
+    background: #0b0e1a;
+    border: 1px solid #2c2f4a;
+    border-radius: 8px;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    transition: border 0.2s ease;
+}
+
+.qty-row input:focus {
+    outline: none;
+    border-color: #5865f2;
+}
+
+/* TOTAL */
+.total {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 18px 0 22px;
+    color: #7aa2ff;
+}
+
+/* ACTIONS */
+.modal-actions {
+    display: flex;
+    gap: 14px;
+}
+
+/* BUTTONS */
+.modal-actions button {
+    flex: 1;
+    padding: 12px 0;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+/* PRIMARY BUY */
+.modal-actions .primary-btn {
+    background: linear-gradient(90deg, #5865f2, #7289da);
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.45);
+}
+
+.modal-actions .primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(88, 101, 242, 0.6);
+}
+
+/* SECONDARY CANCEL */
+.modal-actions .secondary-btn {
+    background: transparent;
+    border: 1px solid #2c2f55;
+    color: #b5b9d6;
+}
+
+.modal-actions .secondary-btn:hover {
+    background: rgba(88, 101, 242, 0.15);
+    color: #fff;
+}

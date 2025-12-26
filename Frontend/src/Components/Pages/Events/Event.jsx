@@ -4,46 +4,39 @@ import EventsPage from "./components/EventsPage/EventsPage";
 import "./Event.scss";
 
 const Events = () => {
-    // dummy logged in user
-    const user = {
-      role: "creator", // "viewer"
-    };
-  
+    const user = { role: "creator" }; // "creator"
+
     const [activeTab, setActiveTab] = useState("");
-    const [favourites, setFavourites] = useState([]); // event IDs
-  
+    const [favourites, setFavourites] = useState([]);
+
     useEffect(() => {
-      if (user.role === "creator") {
-        setActiveTab("all-events");
-      } else {
-        setActiveTab("events");
-      }
+        setActiveTab(user.role === "creator" ? "all-events" : "events");
     }, [user.role]);
-  
-    const toggleFavourite = (eventId) => {
-      setFavourites((prev) =>
-        prev.includes(eventId)
-          ? prev.filter((id) => id !== eventId)
-          : [...prev, eventId]
-      );
+
+    const toggleFavourite = (id) => {
+        setFavourites(prev =>
+            prev.includes(id)
+                ? prev.filter(e => e !== id)
+                : [...prev, id]
+        );
     };
-  
+
     return (
-      <div className="events-layout">
-        <Sidebar
-          role={user.role}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
-  
-        <EventsPage
-          role={user.role}
-          activeTab={activeTab}
-          favourites={favourites}
-          toggleFavourite={toggleFavourite}
-        />
-      </div>
+        <div className="events-layout">
+            <Sidebar
+                role={user.role}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+            />
+
+            <EventsPage
+                role={user.role}
+                activeTab={activeTab}
+                favourites={favourites}
+                toggleFavourite={toggleFavourite}
+            />
+        </div>
     );
-  };
-  
-  export default Events;
+};
+
+export default Events;

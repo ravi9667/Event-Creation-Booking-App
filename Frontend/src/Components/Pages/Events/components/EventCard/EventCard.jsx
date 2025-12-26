@@ -1,7 +1,9 @@
 import React from "react";
-import like from "../../../../../assets/like.png"
-import heart from "../../../../../assets/heart.png"
-import demo1 from "../../../../../assets/demo1.png"
+import like from "../../../../../assets/like.png";
+import heart from "../../../../../assets/heart.png";
+import demo1 from "../../../../../assets/demo1.png";
+import cart from "../../../../../assets/cart.png";
+import checklist from "../../../../../assets/checklist.png";
 import "./EventCard.scss";
 
 const EventCard = ({
@@ -9,7 +11,9 @@ const EventCard = ({
     role,
     activeTab,
     isFavourite,
+    isBought,          // 👈 NEW
     onToggleFavourite,
+    onBuy,
 }) => {
     return (
         <div className="event-card">
@@ -22,9 +26,21 @@ const EventCard = ({
 
             <div className="event-details">
                 <h3>{event.title}</h3>
-                <p className="event">{event.venue}</p>
-                <p className="event">{event.date}</p>
-                <p className="event-price">₹ {event.price}</p>
+                <p>{event.venue}</p>
+                <p>{event.date}</p>
+                <div className="pricing">
+                    <p className="event-price">₹ {event.price}</p>
+                    {/* 🛒 / ✅ BUY STATUS ICON */}
+                    {activeTab !== "my-tickets" && event.ticketsLeft > 0 && (
+                        <button className="icon-btn" onClick={onBuy}>
+                            <img
+                                src={isBought ? checklist : cart}
+                                className="buy-ticket-icon"
+                                alt="buy-status"
+                            />
+                        </button>
+                    )}
+                </div>
             </div>
 
             <div className="event-actions">
@@ -34,18 +50,15 @@ const EventCard = ({
                     </p>
                 )}
 
+                {/* ❤️ Favourite */}
                 <img
                     src={isFavourite ? heart : like}
-                    className={`favourite-icon ${isFavourite ? "active" : ""
-                        }`}
+                    className={`favourite-icon ${isFavourite ? "active" : ""}`}
                     onClick={() => onToggleFavourite(event.id)}
                     alt="fav"
                 />
 
-                {role === "viewer" && event.ticketsLeft > 0 && (
-                    <button className="primary-btn">Buy Ticket</button>
-                )}
-
+                {/* ✏️ EDIT */}
                 {role === "creator" && activeTab === "my-events" && (
                     <button className="secondary-btn">Edit Event</button>
                 )}
