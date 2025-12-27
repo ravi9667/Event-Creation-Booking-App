@@ -108,7 +108,7 @@ const Login = () => {
                 </div>
                 <div className="btn-box">
                     <button className="forget-password">Forget Password</button>
-                    <button className="login-btn">Login</button>
+                    <button className="login-btn" onClick={handlelogin} disabled={isLoading}>Login</button>
                     <p>Don't have an account ? <button>Signup</button> </p>
                 </div>
             </div>
