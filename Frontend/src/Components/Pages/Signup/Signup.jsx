@@ -1,181 +1,118 @@
-import React, { useState } from "react";
-import logo from "../../.././assets/electronics-arts.png";
-import userIcon from "../../.././assets/user.png";
-import emailIcon from "../../.././assets/mail.png";
-import dobIcon from "../../.././assets/calendar.png";
-import passIcon from "../../.././assets/padlock.png";
-import hide from "../../.././assets/hide.png";
-import show from "../../.././assets/eye.png";
-import illustration from "../../.././assets/illustration.png";
-import { postRequest } from "../../../apiRoutes";
-import "./Signup.scss";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import api from "../Api/api";
 
 const Signup = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-    const [error, setError] = useState("");
-    const [signupFormData, setSignupFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        dateOfBirth: "",
-        role: ""
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    dob: "",
+    email: "",
+    password: "",
+    role: "viewer",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  // input change handler
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const handleFormInput = (field, event) => {
-        setSignupFormData({ ...signupFormData, [field]: event.target.value });
-    };
+  // signup submit handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSignup = async () => {
-        const { name, email, password, dateOfBirth, role } = signupFormData;
-
-        if ( !name.trim() || !email.trim() || !password.trim() || !dateOfBirth.trim() || !role.trim() ) {
-            setError("All fields are required");
-            alert(error)
-            return;
-        }
-
-        try {
-            const data = await postRequest("http://127.0.0.1:6060/api/auth/signup", signupFormData);
-
-            console.log("Signup Response:", data);
-
-            if (data.ok) {
-                localStorage.setItem("token", data.token);
-                alert("Signup Successful!");
-                navigate("/login");
-            } else {
-                setError(data.message || "Signup failed");
-            }
-
-        } catch (err) {
-            console.error("Signup Error:", err);
-            setError("Something went wrong. Please try again.");
-        } finally {
-            setIsLoading(false);
-        }
+    // basic validation
+    if (
+      !formData.name ||
+      !formData.dob ||
+      !formData.email ||
+      !formData.password
+    ) {
+      alert("All fields are required");
+      return;
     }
 
-    return (
-        <div className="signup-container">
-            <div className="signup-main">
-                <div className="signup-card">
-                    <div className="app-brand">
-                        <img src={logo} alt="App Logo" width={40} height={40} />
-                        <h1 className="app-title">Evently</h1>
-                    </div>
+    // age validation (18+)
+    const dob = new Date(formData.dob);
+    const age = new Date().getFullYear() - dob.getFullYear();
+    if (age < 18) {
+      alert("You must be 18 years old to signup");
+      return;
+    }
 
-                    <div>
-                        <h1>Create Account</h1>
-                        <p>Join Evently to explore and create events</p>
-                    </div>
+    try {
+      setLoading(true);
 
-                    <div className="inputs-wrapper">
-                        <div className="left-column">
-                            <div className="input-group group-1">
-                                <img src={userIcon} alt="" className="input-icon" />
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder=" "
-                                    required
-                                    value={signupFormData.name}
-                                    onChange={(e) => handleFormInput("name", e)}
-                                />
-                                <label>Full Name</label>
-                            </div>
+      const res = await api.post("/auth/signup", formData);
 
-                            <div className="input-group group-1">
-                                <img src={emailIcon} alt="" className="input-icon" />
-                                <input
-                                    type="email"
-                                    className="input"
-                                    placeholder=" "
-                                    required
-                                    value={signupFormData.email}
-                                    onChange={(e) => handleFormInput("email", e)}
-                                />
-                                <label>Email</label>
-                            </div>
-                            <div className="role-radio-group">
-                                <p className="radio-title">Select Role</p>
-                                <div className="radio-selectors">
-                                    <label className="radio-option">
-                                        <input
-                                            type="radio"
-                                            name="role"
-                                            value="creator"
-                                            checked={signupFormData.role === "creator"}
-                                            onChange={(e) => handleFormInput("role", e)}
-                                        />
-                                        Creator
-                                    </label>
-                                    <label className="radio-option">
-                                        <input
-                                            type="radio"
-                                            name="role"
-                                            value="viewer"
-                                            checked={signupFormData.role === "viewer"}
-                                            onChange={(e) => handleFormInput("role", e)}
-                                        />
-                                        Viewer
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+      alert(res.data.message || "Signup successful! Please verify your email.");
+      navigate("/"); // login page
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "Signup failed, please try again"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                        <div className="right-column">
-                            <div className="input-group group-1">
-                                <img src={dobIcon} alt="" className="input-icon dob-icon" />
-                                <input
-                                    type="date"
-                                    className="input dob-input"
-                                    placeholder=" "
-                                    required
-                                    value={signupFormData.dateOfBirth}
-                                    onChange={(e) => handleFormInput("dateOfBirth", e)}
-                                />
-                                <label className="dob-label">Date of Birth</label>
-                            </div>
+  return (
+    <div className="signup-container">
+      <h2>Signup</h2>
 
-                            <div className="input-group group-2">
-                                <img src={passIcon} alt="" className="password-icon" />
-                                <input
-                                    type={isPasswordHidden ? "password" : "text" }
-                                    className="input"
-                                    placeholder=" "
-                                    required
-                                    value={signupFormData.password}
-                                    onChange={(e) => handleFormInput("password", e)}
-                                />
-                                <label>Password</label>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          value={formData.name}
+          onChange={handleChange}
+        />
 
-                                {signupFormData.password.length > 0 && (
-                                    <img
-                                        src={isPasswordHidden ? hide : show}
-                                        className="showIcon"
-                                        alt="toggle"
-                                        onClick={() => setIsPasswordHidden(!isPasswordHidden)}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button className="signup-btn" onClick={handleSignup}>Sign Up</button>
-                        <p className="already">
-                            Already have an account?
-                            <button>Sign In</button>
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <input
+          type="date"
+          name="dob"
+          value={formData.dob}
+          onChange={handleChange}
+        />
 
-            <div className="signup-bg">
-                <img src={illustration} alt="" className="signup-illustrations" />
-            </div>
-        </div>
-    );
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+        >
+          <option value="viewer">Viewer</option>
+          <option value="creator">Creator</option>
+        </select>
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Signing up..." : "Signup"}
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default Signup;
