@@ -7,7 +7,7 @@ const Signup = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    dob: "",
+    dateOfBirth: "",
     email: "",
     password: "",
     role: "viewer",
@@ -30,7 +30,7 @@ const Signup = () => {
     // basic validation
     if (
       !formData.name ||
-      !formData.dob ||
+      !formData.dateOfBirth ||
       !formData.email ||
       !formData.password
     ) {
@@ -39,7 +39,7 @@ const Signup = () => {
     }
 
     // age validation (18+)
-    const dob = new Date(formData.dob);
+    const dob = new Date(formData.dateOfBirth);
     const age = new Date().getFullYear() - dob.getFullYear();
     if (age < 18) {
       alert("You must be 18 years old to signup");
@@ -78,7 +78,7 @@ const Signup = () => {
         <input
           type="date"
           name="dob"
-          value={formData.dob}
+          value={formData.dateOfBirth}
           onChange={handleChange}
         />
 
