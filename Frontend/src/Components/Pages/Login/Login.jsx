@@ -109,7 +109,7 @@ const Login = () => {
                 <div className="btn-box">
                     <button className="forget-password">Forget Password</button>
                     <button className="login-btn" onClick={handlelogin} disabled={isLoading}>Login</button>
-                    <p>Don't have an account ? <button>Signup</button> </p>
+                    <p>Don't have an account ? <button onClick={navigate("/signup")}>Signup</button> </p>
                 </div>
             </div>
             <div className="login-bg">
