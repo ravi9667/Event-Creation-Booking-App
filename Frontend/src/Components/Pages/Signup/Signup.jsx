@@ -47,7 +47,7 @@ const Signup = () => {
       setLoading(true);
 
       const res = await api.post("/auth/signup", formData);
-      if(data?.ok) {
+      if(res.data?.ok) {
         alert(res.data.message || "Signup successful! Please verify your email.");
         navigate("/")
       }
