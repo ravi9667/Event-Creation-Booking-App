@@ -4,10 +4,13 @@ import logo from "../../../assets/electronics-arts.png";
 import emailIcon from "../../../assets/mail.png";
 import passIcon from "../../../assets/padlock.png";
 import hide from "../../../assets/hide.png";
-import show from "../../../assets/eye.png";
+import { useNavigate } from "react-router-dom";
+import api from "../../../Api/api";
+import show from "../../../assets/eye.png"
 import "./Login.scss";
 
 const Login = () => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isPasswordHidden, setIsPasswordHidden] = useState(true);
     const [error, setError] = useState("");
@@ -22,36 +25,41 @@ const Login = () => {
     };
    
     const handlelogin = async () => {
-        const { email, password} = loginFormData;
+    const { email, password } = loginFormData;
 
-        if ( !email.trim() || !password.trim() ) {
-            setError("All fields are required");
-            alert(error)
-            return;
-        }
-
-        try {
-            const data = await postRequest("http://127.0.0.1:6060/api/auth/login", loginFormData);
-
-            console.log("login Response:", data);
-
-            if (data.ok) {
-                localStorage.setItem("token", data.token);
-                alert("Signup Successful!");
-                navigate("/login");
-            } else {
-                setError(data.message || "login failed");
-                console.log(error)
-            }
-
-        } catch (err) {
-            console.error("login Error:", err);
-            setError("Something went wrong. Please try again.");
-            console.log(error)
-        } finally {
-            setIsLoading(false);
-        }
+    if (!email.trim() || !password.trim()) {
+        setError("All fields are required");
+        alert("All fields are required");
+        return;
     }
+
+    try {
+        setIsLoading(true);
+
+        const res = await api.post("/auth/login", {
+            email,
+            password
+        });
+
+        // backend should send: { message: "OTP sent" }
+        alert(res.data.message || "OTP sent to your email");
+
+        // OTP verify ke liye email save
+        localStorage.setItem("loginEmail", email);
+
+        // OTP page
+        navigate("/verify-otp");
+
+    } catch (err) {
+        console.error("login Error:", err);
+        alert(
+            err.response?.data?.message ||
+            "Login failed. Please try again."
+        );
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     return (
         <div className="login-container">
