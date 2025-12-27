@@ -170,10 +170,10 @@ return (
                     </div>  
                 </div>  
                 <div>  
-                    <button className="signup-btn" onClick={handleSignup}>Sign Up</button>  
+                    <button className="signup-btn" onClick={handleSignup} disabled={isLoading} >Sign Up</button>  
                     <p className="already">  
                         Already have an account?  
-                        <button>Sign In</button>  
+                        <button onClick={navigate("/login")} >Sign In</button>  
                     </p>  
                 </div>  
             </div>  
