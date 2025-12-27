@@ -4,6 +4,16 @@ import "./BuyTicketModal.scss";
 const BuyTicketModal = ({ event, onClose, onSuccess }) => {
     const [qty, setQty] = useState(1);
 
+    // ✅ FORMAT DATE HERE (SAFE)
+    const formattedDate = new Date(event.dateTime).toLocaleString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    });
+
     const handleBuy = () => {
         onSuccess(qty);
         onClose();
@@ -17,7 +27,7 @@ const BuyTicketModal = ({ event, onClose, onSuccess }) => {
                 <div className="event-info">
                     <p className="title">{event.title}</p>
                     <p>{event.venue}</p>
-                    <p>{event.date}</p>
+                    <p>{formattedDate}</p> {/* ✅ FIX */}
                 </div>
 
                 <div className="price-row">

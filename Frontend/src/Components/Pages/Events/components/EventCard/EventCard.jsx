@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import like from "../../../../../assets/like.png";
 import heart from "../../../../../assets/heart.png";
 import demo1 from "../../../../../assets/demo1.png";
 import cart from "../../../../../assets/cart.png";
 import checklist from "../../../../../assets/checklist.png";
+import EditEventModal from "../EditEventModal/EditEventModal";
 import "./EventCard.scss";
 
 const EventCard = ({
@@ -15,6 +16,9 @@ const EventCard = ({
     onToggleFavourite,
     onBuy,
 }) => {
+
+    const [showEditModal, setShowEditModal] = useState(false);
+
     return (
         <div className="event-card">
             <div className="event-image">
@@ -60,8 +64,15 @@ const EventCard = ({
 
                 {/* ✏️ EDIT */}
                 {role === "creator" && activeTab === "my-events" && (
-                    <button className="secondary-btn">Edit Event</button>
+                    <button className="secondary-btn" onClick={() => setShowEditModal(true)}>Edit Event</button>
                 )}
+                {showEditModal && (
+                    <EditEventModal
+                        event={event}
+                        onClose={() => setShowEditModal(false)}
+                    />
+                )}
+
             </div>
         </div>
     );
