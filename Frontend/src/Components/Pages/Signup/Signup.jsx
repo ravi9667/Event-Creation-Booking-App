@@ -173,7 +173,7 @@ return (
                     <button className="signup-btn" onClick={handleSignup} disabled={isLoading} >Sign Up</button>  
                     <p className="already">  
                         Already have an account?  
-                        <button onClick={navigate("/login")} >Sign In</button>  
+                        <button onClick={navigate("/")} >Sign In</button>  
                     </p>  
                 </div>  
             </div>  
