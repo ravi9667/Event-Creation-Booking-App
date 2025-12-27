@@ -29,10 +29,7 @@ const Signup = () => {
 
     // basic validation
     if (
-      !formData.name ||
-      !formData.dateOfBirth ||
-      !formData.email ||
-      !formData.password
+      !formData.name || !formData.dateOfBirth || !formData.email || !formData.password
     ) {
       alert("All fields are required");
       return;
@@ -50,9 +47,10 @@ const Signup = () => {
       setLoading(true);
 
       const res = await api.post("/auth/signup", formData);
-
-      alert(res.data.message || "Signup successful! Please verify your email.");
-      navigate("/"); // login page
+      if(data?.ok) {
+        alert(res.data.message || "Signup successful! Please verify your email.");
+        navigate("/")
+      }
     } catch (error) {
       alert(
         error.response?.data?.message || "Signup failed, please try again"
