@@ -26,7 +26,7 @@ export const fetchUser = async (req, res) => {
         }
 
         // 3️⃣ Fetch user from DB
-        const user = await bookingUser.findById(decoded._id).select("name email role");
+        const user = await BookingUser.findById(decoded._id).select("name email role");
 
         if (!user) {
             return res.status(404).send({

@@ -171,8 +171,12 @@ body {
             .already button {
                 all: unset;
                 color: #4ea3ff;
-                text-decoration: underline;
                 cursor: pointer;
+
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
             }
         }
     }

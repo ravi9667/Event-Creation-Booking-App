@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
+import LogoutModal from "../LogoutModal/LogoutModal";
 import "./Sidebar.scss";
 
 const Sidebar = ({ role, activeTab, setActiveTab }) => {
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+    };
+
     return (
         <aside className="sidebar">
             <h2 className="sidebar-title">Events</h2>
@@ -52,6 +60,18 @@ const Sidebar = ({ role, activeTab, setActiveTab }) => {
                 >
                     Favourites
                 </div>
+                <button
+                    className="logout menu-item"
+                    onClick={() => setShowLogoutModal(true)}
+                >
+                    Log out
+                </button>
+                {showLogoutModal && (
+                    <LogoutModal
+                        onClose={() => setShowLogoutModal(false)}
+                        onConfirm={handleLogout}
+                    />
+                )}
             </div>
         </aside>
     );

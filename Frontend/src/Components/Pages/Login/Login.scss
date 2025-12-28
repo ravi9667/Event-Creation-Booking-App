@@ -97,6 +97,7 @@
                     background-color: #222222;
                     padding: 0 4px;
                 }
+
                 .showIcon {
                     position: absolute;
                     right: 15px;
@@ -119,6 +120,11 @@
                 all: unset;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 text-align: center;
+
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
             }
 
             .login-btn {
@@ -149,6 +155,11 @@
                 button {
                     all: unset;
                     color: #007bff;
+                    cursor: pointer;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
                 }
             }
         }

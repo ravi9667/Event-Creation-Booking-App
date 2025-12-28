@@ -4,35 +4,25 @@ import BuyTicketModal from "../BuyTicket/BuyTicketModal";
 import CreateEventModal from "../CreateEventModal/CreateEventModal";
 import filter from "../../../../../assets/filter.png";
 import search from "../../../../../assets/search.png";
+import Loader from "../../../../Loader/Loader"
 import "./EventsPage.scss";
 
-const EventsPage = ({ role, activeTab, favourites, toggleFavourite }) => {
+const EventsPage = ({
+    role,
+    activeTab,
+    favourites,
+    toggleFavourite,
+    events,
+    loading,
+    onBuySuccess,
+    boughtEventIds
+}) => {
 
-    // ✅ EVENTS — ISO DATE (BACKEND STYLE)
-    const [events, setEvents] = useState([
-        {
-            id: 1,
-            title: "Music Night",
-            venue: "Delhi NCR",
-            dateTime: "2025-12-25T19:00:00",
-            price: 500,
-            ticketsLeft: 12,
-        },
-        {
-            id: 2,
-            title: "Tech Conference",
-            venue: "Bangalore",
-            dateTime: "2025-12-30T10:00:00",
-            price: 999,
-            ticketsLeft: 0,
-        },
-    ]);
-
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [eventFilter, setEventFilter] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [boughtEvents, setBoughtEvents] = useState([]);
+
 
     // ✅ DATE LOGIC (CORRECT & SAFE)
     const isUpcoming = (dateTime) =>
@@ -76,21 +66,6 @@ const EventsPage = ({ role, activeTab, favourites, toggleFavourite }) => {
 
         return true;
     });
-
-    // ✅ BUY SUCCESS HANDLER
-    const handleBuySuccess = (eventId, qty) => {
-        setEvents((prev) =>
-            prev.map((e) =>
-                e.id === eventId
-                    ? { ...e, ticketsLeft: e.ticketsLeft - qty }
-                    : e
-            )
-        );
-
-        if (!boughtEvents.includes(eventId)) {
-            setBoughtEvents((prev) => [...prev, eventId]);
-        }
-    };
 
     return (
         <div className="events-content">
@@ -159,21 +134,29 @@ const EventsPage = ({ role, activeTab, favourites, toggleFavourite }) => {
 
             {/* EVENTS LIST */}
             <div className="events-list">
+
+                {/* 🔄 Loader on top of cards */}
+                {loading && (
+                    <Loader />
+                )}
+
+                {/* 🎟️ Event Cards */}
                 {filteredEvents.map((event) => (
                     <EventCard
-                        key={event.id}
+                        key={event._id}   // 👈 MongoDB id
                         event={{
                             ...event,
-                            date: formatDate(event.dateTime), // 👈 UI friendly
+                            date: formatDate(event.dateTime),
                         }}
                         role={role}
                         activeTab={activeTab}
-                        isFavourite={favourites.includes(event.id)}
-                        isBought={boughtEvents.includes(event.id)}
+                        isFavourite={favourites.includes(event._id)}
+                        isBought={boughtEventIds.includes(event._id)}
                         onToggleFavourite={toggleFavourite}
                         onBuy={() => setSelectedEvent(event)}
                     />
                 ))}
+
             </div>
 
             {/* BUY MODAL */}
@@ -182,7 +165,7 @@ const EventsPage = ({ role, activeTab, favourites, toggleFavourite }) => {
                     event={selectedEvent}
                     onClose={() => setSelectedEvent(null)}
                     onSuccess={(qty) => {
-                        handleBuySuccess(selectedEvent.id, qty);
+                        onBuySuccess(selectedEvent._id, qty);
                         setSelectedEvent(null);
                     }}
                 />

@@ -18,6 +18,10 @@
         color: #ffffff;
     }
 
+    .logout {
+        all: unset;
+    }
+
     /* Menu Wrapper */
     .menu {
         display: flex;
@@ -58,20 +62,8 @@
                     border-radius: 2px;
                 }
             }
+
         }
     }
 
-    /* Responsive (Optional) */
-    @media (max-width: 900px) {
-        width: 220px;
-
-        .sidebar-title {
-            font-size: 20px;
-        }
-
-        .menu-item {
-            font-size: 14px;
-            padding: 10px 14px;
-        }
-    }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../Api/Api"
+import Loader from "../Loader/Loader";
 import "./VerifyOtp.scss";
 
 const VerifyOtp = () => {
@@ -33,7 +34,7 @@ const VerifyOtp = () => {
             localStorage.removeItem("loginEmail");
 
             alert("Login successful");
-            navigate("/dashboard");
+            navigate("/events");
 
         } catch (err) {
             console.error("OTP Error:", err);
@@ -47,31 +48,34 @@ const VerifyOtp = () => {
     };
 
     return (
-        <div className="otp-container">
-            <div className="otp-card">
-                <h1>Verify OTP</h1>
-                <p>
-                    Please enter the OTP sent to
-                    <span className="email"> {email}</span>
-                </p>
+        isLoading ? (
+            <Loader />
+        ) : (
+            <div className="otp-container">
+                <div className="otp-card">
+                    <h1>Verify OTP</h1>
+                    <p>
+                        Please enter the OTP sent to
+                        <span className="email"> {email}</span>
+                    </p>
 
-                <input
-                    type="text"
-                    className="otp-input"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                />
+                    <input
+                        type="text"
+                        className="otp-input"
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                    />
 
-                <button
-                    className="verify-btn"
-                    onClick={handleVerifyOtp}
-                    disabled={isLoading}
-                >
-                    {isLoading ? "Verifying..." : "Verify OTP"}
-                </button>
+                    <button
+                        className="verify-btn"
+                        onClick={handleVerifyOtp}
+                    >
+                        {isLoading ? "Verifying..." : "Verify OTP"}
+                    </button>
+                </div>
             </div>
-        </div>
+        )
     );
 };
 

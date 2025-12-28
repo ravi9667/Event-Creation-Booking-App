@@ -6,6 +6,7 @@ import { updateEvent } from "../controllers/eventsControllers/updateEventsContro
 import { verifyToken } from "../utils/verifyToken.js"; // JWT verification middleware
 import {upload} from "../Middleware/upload.js"  // Multer for file upload
 import { buyTicket } from "../controllers/eventsControllers/ticketControllers.js";
+import { fetchMyTickets } from "../controllers/eventsControllers/myTicketsController.js";
 
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.get("/my-events", verifyToken, fetchMyEvents);
 router.put("/update-event/:id", verifyToken, upload.single("eventImage"), updateEvent);
 
 router.post("/buy-ticket/:eventId", verifyToken, buyTicket);
+
+router.get("/my-tickets", verifyToken, fetchMyTickets);
 
 export default router;
