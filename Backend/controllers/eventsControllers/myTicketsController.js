@@ -9,7 +9,6 @@ export const fetchMyTickets = async (req, res) => {
         const tickets = await Ticket.find({ userId: req.user._id })
             .populate("eventId");
 
-        // unique events nikaal lo
         const eventsMap = new Map();
 
         tickets.forEach(ticket => {

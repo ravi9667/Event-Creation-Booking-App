@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { createEvent } from "../../../../Api/eventsApi";
 import "./CreateEventModal.scss";
 
-const CreateEventModal = ({ onClose }) => {
+const CreateEventModal = ({ onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         eventName: "",
         venueLocation: "",
@@ -20,10 +21,9 @@ const CreateEventModal = ({ onClose }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ✅ MERGE DATE + TIME → ISO STRING (BACKEND FRIENDLY)
         const combinedDateTime = new Date(
             `${formData.date}T${formData.time}`
         ).toISOString();
@@ -31,15 +31,21 @@ const CreateEventModal = ({ onClose }) => {
         const payload = new FormData();
         payload.append("eventName", formData.eventName);
         payload.append("venueLocation", formData.venueLocation);
-        payload.append("dateTime", combinedDateTime); // 👈 single field
+        payload.append("dateTime", combinedDateTime);
         payload.append("ticketPrice", formData.ticketPrice);
         payload.append("totalTicket", formData.totalTicket);
         payload.append("eventImage", formData.eventImage);
 
-        // 🔥 API CALL (example)
-        // axios.post("/api/event/create", payload)
+        try {
+            const res = await createEvent(payload);
 
-        onClose();
+            if (res.data.ok) {
+                onSuccess(res.data.data); // 👈 SEND NEW EVENT UP
+                onClose();
+            }
+        } catch (err) {
+            console.error("Create Event Error:", err);
+        }
     };
 
     return (

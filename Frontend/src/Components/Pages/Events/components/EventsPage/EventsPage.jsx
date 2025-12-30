@@ -17,7 +17,7 @@ const EventsPage = ({
     onBuySuccess,
     boughtEventIds
 }) => {
-
+    const [editEvent, setEditEvent] = useState(null);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [eventFilter, setEventFilter] = useState("all");
@@ -98,6 +98,14 @@ const EventsPage = ({
                     {showCreateModal && (
                         <CreateEventModal
                             onClose={() => setShowCreateModal(false)}
+                            onSuccess={(newEvent) => {
+                                // bubble up
+                                window.dispatchEvent(
+                                    new CustomEvent("event-created", {
+                                        detail: newEvent,
+                                    })
+                                );
+                            }}
                         />
                     )}
 
@@ -154,8 +162,24 @@ const EventsPage = ({
                         isBought={boughtEventIds.includes(event._id)}
                         onToggleFavourite={toggleFavourite}
                         onBuy={() => setSelectedEvent(event)}
+                        onEdit={(event) => setEditEvent(event)}
                     />
                 ))}
+                {editEvent && (
+                    <EditEventModal
+                        event={editEvent}
+                        onClose={() => setEditEvent(null)}
+                        onSuccess={(updatedEvent) => {
+                            window.dispatchEvent(
+                                new CustomEvent("event-updated", {
+                                    detail: updatedEvent,
+                                })
+                            );
+                            setEditEvent(null);
+                        }}
+                    />
+                )}
+
 
             </div>
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { updateEvent } from "../../../../Api/eventsApi";
 import "./EditEventModal.scss";
 
 /* ---------- HELPERS ---------- */
@@ -18,7 +19,7 @@ const getTimeValue = (dateStr) => {
     });
 };
 
-const EditEventModal = ({ event, onClose }) => {
+const EditEventModal = ({ event, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         eventName: event.title,
         venueLocation: event.venue,
@@ -37,18 +38,17 @@ const EditEventModal = ({ event, onClose }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // 🔥 Combine date + time → JS Date (backend expects Date)
         const combinedDateTime = new Date(
             `${formData.eventDate}T${formData.eventTime}`
-        );
+        ).toISOString();
 
         const payload = new FormData();
         payload.append("eventName", formData.eventName);
         payload.append("venueLocation", formData.venueLocation);
-        payload.append("dateTime", combinedDateTime.toISOString());
+        payload.append("dateTime", combinedDateTime);
         payload.append("ticketPrice", formData.ticketPrice);
         payload.append("totalTicket", formData.totalTicket);
 
@@ -56,11 +56,18 @@ const EditEventModal = ({ event, onClose }) => {
             payload.append("eventImage", formData.eventImage);
         }
 
-        // 🔥 API CALL (example)
-        // axios.put(`/api/event/${event.id}`, payload)
+        try {
+            const res = await updateEvent(event._id, payload);
 
-        onClose();
+            if (res.data.ok) {
+                onSuccess(res.data.data); // 🔥 send updated event up
+                onClose();
+            }
+        } catch (err) {
+            console.error("Update Event Error:", err);
+        }
     };
+
 
     return (
         <div className="modal-backdrop">

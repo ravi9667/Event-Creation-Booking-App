@@ -15,9 +15,15 @@ const BuyTicketModal = ({ event, onClose, onSuccess }) => {
     });
 
     const handleBuy = () => {
+        if (qty > event.ticketsLeft) {
+            alert(`Only ${event.ticketsLeft} tickets left`);
+            return;
+        }
+
         onSuccess(qty);
         onClose();
     };
+
 
     return (
         <div className="modal-backdrop">
@@ -42,7 +48,12 @@ const BuyTicketModal = ({ event, onClose, onSuccess }) => {
                         min={1}
                         max={event.ticketsLeft}
                         value={qty}
-                        onChange={(e) => setQty(Number(e.target.value))}
+                        onChange={(e) => {
+                            const value = Number(e.target.value);
+                            if (value <= event.ticketsLeft) {
+                                setQty(value);
+                            }
+                        }}
                     />
                 </div>
 

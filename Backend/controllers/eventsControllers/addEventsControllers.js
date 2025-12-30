@@ -20,6 +20,7 @@ export const addEvent = async (req, res) => {
             dateTime,
             ticketPrice,
             totalTicket,
+            ticketsLeft: totalTicket,
             userId: new mongoose.Types.ObjectId(req.user._id),
             eventImage: req.file.path
         });

@@ -11,24 +11,31 @@ export const buyTicket = async (req, res) => {
         const { eventId } = req.params;
 
         if (!quantity || quantity < 1) {
-            return res.status(400).send({ ok: false, message: "Invalid quantity" });
-        }
-
-        // 1️⃣ Find Event
-        const event = await Events.findById(eventId);
-        if (!event) {
-            return res.status(404).send({ ok: false, message: "Event not found" });
-        }
-
-        // 2️⃣ Check tickets availability
-        if (event.totalTicket < quantity) {
             return res.status(400).send({
                 ok: false,
-                message: "Not enough tickets available"
+                message: "Invalid ticket quantity"
             });
         }
 
-        // 3️⃣ Create Ticket
+        // 1️⃣ Find event
+        const event = await Events.findById(eventId);
+
+        if (!event) {
+            return res.status(404).send({
+                ok: false,
+                message: "Event not found"
+            });
+        }
+
+        // 2️⃣ MAIN CHECK 🔥 (important)
+        if (event.totalTicket < quantity) {
+            return res.status(400).send({
+                ok: false,
+                message: `Only ${event.totalTicket} tickets available`
+            });
+        }
+
+        // 3️⃣ Create ticket
         const ticket = await Ticket.create({
             userId: req.user._id,
             eventId: event._id,
@@ -49,6 +56,9 @@ export const buyTicket = async (req, res) => {
 
     } catch (err) {
         console.error("Buy Ticket Error:", err);
-        return res.status(500).send({ ok: false, message: "Ticket purchase failed" });
+        return res.status(500).send({
+            ok: false,
+            message: "Ticket purchase failed"
+        });
     }
 };

@@ -16,6 +16,10 @@ const EventSchema = mongoose.Schema(
             type: Date,
             required: true
         },
+        ticketsLeft: {
+            type: Number,
+            required: true
+        },
         ticketPrice: {
             type: Number,
             required: true,
@@ -36,7 +40,7 @@ const EventSchema = mongoose.Schema(
             required: true
         }
     },
-    { timeStamps: true }
+    { timestamps: true }
 );
 
 export const Events = mongoose.model("Event", EventSchema);

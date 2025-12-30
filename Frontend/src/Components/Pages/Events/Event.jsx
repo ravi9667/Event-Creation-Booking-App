@@ -29,6 +29,18 @@ const Events = () => {
         );
     };
 
+    useEffect(() => {
+        const handler = (e) => {
+            const newEvent = e.detail;
+
+            setEvents((prev) => [newEvent, ...prev]);
+        };
+
+        window.addEventListener("event-created", handler);
+
+        return () => window.removeEventListener("event-created", handler);
+    }, []);
+
 
     const loadAllEvents = async (pageNo = 1, reset = false) => {
         if (loading) return;
@@ -52,19 +64,29 @@ const Events = () => {
         }
     };
 
-    const handleBuySuccess = (eventId, qty) => {
+    const handleBuySuccess = async (eventId, qty) => {
+        await buyTicketAPI(eventId, qty);
+
         setEvents(prev =>
             prev.map(e =>
                 e._id === eventId
-                    ? { ...e, ticketsLeft: e.ticketsLeft - qty }
+                    ? {
+                        ...e,
+                        ticketsLeft: e.ticketsLeft - qty,
+                        boughtQuantity: (e.boughtQuantity || 0) + qty
+                    }
                     : e
             )
         );
-
-        setBoughtEventIds(prev =>
-            prev.includes(eventId) ? prev : [...prev, eventId]
-        );
     };
+
+    useEffect(() => {
+        fetchMyTickets().then(res => {
+            setEvents(res.data.data);
+        });
+    }, []);
+
+
 
     const loadMyTickets = async (pageNo = 1, reset = false) => {
         if (loading) return;
@@ -91,15 +113,6 @@ const Events = () => {
         }
     };
 
-    useEffect(() => {
-        if (activeTab === "my-tickets") {
-            fetchMyTickets().then(res => {
-                if (res.data.ok) {
-                    setEvents(res.data.data);
-                }
-            });
-        }
-    }, [activeTab]);
 
 
     const loadMyEvents = async (pageNo = 1, reset = false) => {
@@ -168,6 +181,22 @@ const Events = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [page, ticketPage, hasMore, ticketHasMore, loading, activeTab]);
+
+    useEffect(() => {
+        const handler = (e) => {
+            const updatedEvent = e.detail;
+
+            setEvents(prev =>
+                prev.map(ev =>
+                    ev._id === updatedEvent._id ? updatedEvent : ev
+                )
+            );
+        };
+
+        window.addEventListener("event-updated", handler);
+        return () => window.removeEventListener("event-updated", handler);
+    }, []);
+
 
     return (
         <div className="events-layout">

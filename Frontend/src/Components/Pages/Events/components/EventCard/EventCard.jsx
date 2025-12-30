@@ -4,7 +4,6 @@ import heart from "../../../../../assets/heart.png";
 import demo1 from "../../../../../assets/demo1.png";
 import cart from "../../../../../assets/cart.png";
 import checklist from "../../../../../assets/checklist.png";
-import EditEventModal from "../EditEventModal/EditEventModal";
 import "./EventCard.scss";
 
 const EventCard = ({
@@ -15,9 +14,9 @@ const EventCard = ({
     isBought,          // 👈 NEW
     onToggleFavourite,
     onBuy,
+    onEdit
 }) => {
 
-    const [showEditModal, setShowEditModal] = useState(false);
 
     return (
         <div className="event-card">
@@ -34,13 +33,18 @@ const EventCard = ({
                 <p className="event">{event.date}</p>
                 <div className="pricing">
                     <p className="event-price">₹ {event.price}</p>
-                    {/* 🛒 / ✅ BUY STATUS ICON */}
+
+                    {event.boughtQuantity > 0 && (
+                        <span className="bought-count">
+                            Bought: {event.boughtQuantity}
+                        </span>
+                    )}
+
                     {activeTab !== "my-tickets" && event.ticketsLeft > 0 && (
                         <button className="icon-btn" onClick={onBuy}>
                             <img
                                 src={isBought ? checklist : cart}
-                                className="buy-ticket-icon"
-                                alt="buy-status"
+                                alt="buy"
                             />
                         </button>
                     )}
@@ -64,13 +68,7 @@ const EventCard = ({
 
                 {/* ✏️ EDIT */}
                 {role === "creator" && activeTab === "my-events" && (
-                    <button className="secondary-btn" onClick={() => setShowEditModal(true)}>Edit Event</button>
-                )}
-                {showEditModal && (
-                    <EditEventModal
-                        event={event}
-                        onClose={() => setShowEditModal(false)}
-                    />
+                    <button className="secondary-btn" onClick={() => onEdit(event)}>Edit Event</button>
                 )}
 
             </div>
