@@ -1,4 +1,4 @@
-import { Ticket } from "../../Models/ticket";
+import { Ticket } from "../../Models/ticket.js";
 
 export const fetchMyTickets = async (req, res) => {
     try {
