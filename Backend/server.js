@@ -18,7 +18,7 @@ app.use(cors())
 app.use("/uploads", express.static("uploads"))
 
 try {
-    const mongoConnect = await mongoose.connect("mongodb://localhost:27017/bookings")
+    const mongoConnect = await mongoose.connect(process.env.MONGODB_URL)
     if(mongoConnect) {
         console.log("DB Conected !!")
     }
