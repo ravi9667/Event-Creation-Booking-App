@@ -10,7 +10,7 @@ import eventsRoutes from './routes/eventRoutes.js';
 dotenv.config()
 const app = express();
 
-const hostName = '127.0.0.1';
+const hostName = '0.0.0.0';
 const port = process.env.PORT || 6060;
 
 app.use(express.json());
