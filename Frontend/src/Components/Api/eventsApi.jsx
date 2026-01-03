@@ -23,3 +23,7 @@ export const updateEvent = (eventId, formData) => {
         },
     });
 };
+
+export const fetchUserAPI = () => {
+    return api.get("/user/me");
+};
