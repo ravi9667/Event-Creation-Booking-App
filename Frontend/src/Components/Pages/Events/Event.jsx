@@ -3,10 +3,13 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import EventsPage from "./components/EventsPage/EventsPage";
 import { fetchAllEvents, fetchMyEvents } from "../../Api/eventsApi";
 import { fetchMyTickets } from "../../Api/ticketApi";
+import { fetchUserAPI } from "../../Api/userApi";
+import Loader from "../../Loader/Loader";
 import "./Event.scss";
 
 const Events = () => {
-    const user = { role: "creator" };
+    const [user, setUser] = useState(null);
+    const [userLoading, setUserLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("");
     const [favourites, setFavourites] = useState([]);
     const [events, setEvents] = useState([]);
@@ -17,6 +20,23 @@ const Events = () => {
     const [ticketHasMore, setTicketHasMore] = useState(true);
     const [boughtEventIds, setBoughtEventIds] = useState([]);
 
+    useEffect(() => {
+        const loadUser = async () => {
+            try {
+                setUserLoading(true);
+                const res = await fetchUserAPI();
+                if (res.data.ok) {
+                    setUser(res.data.data);
+                }
+            } catch (err) {
+                console.error("Fetch user error", err);
+            } finally {
+                setUserLoading(false);
+            }
+        };
+        loadUser();
+    }, []);
+    
     useEffect(() => {
         setActiveTab(user.role === "creator" ? "all-events" : "events");
     }, [user.role]);
@@ -197,6 +217,7 @@ const Events = () => {
         return () => window.removeEventListener("event-updated", handler);
     }, []);
 
+    if (userLoading) return <Loader />;
 
     return (
         <div className="events-layout">
