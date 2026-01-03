@@ -14,7 +14,10 @@ const hostName = '0.0.0.0';
 const port = process.env.PORT || 6060;
 
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true
+}));
 app.use("/uploads", express.static("uploads"))
 
 try {
