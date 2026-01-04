@@ -12,7 +12,7 @@ export const verifyLoginOtp = async (req, res) => {
             });
         }
 
-        const user = await bookingUser.findOne({ email });
+        const user = await BookingUser.findOne({ email });
 
         if (!user || user.loginOtp !== Number(otp)) {
             return res.status(400).send({

@@ -7,7 +7,7 @@ export const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
 
-        const user = await bookingUser.findOne({ email });
+        const user = await BookingUser.findOne({ email });
 
         if (!user) {
             return res.status(404).send({
@@ -43,7 +43,7 @@ export const resetPassword = async (req, res) => {
         const { token } = req.params;
         const { newPassword } = req.body;
 
-        const user = await bookingUser.findOne({
+        const user = await BookingUser.findOne({
             passwordResetToken: token,
             passwordResetTokenExpires: { $gt: Date.now() }
         });

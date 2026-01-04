@@ -12,7 +12,7 @@ export const verifyEmail = async (req, res) => {
         }
 
         // Find user whose token matches and token is not expired
-        const user = await bookingUser.findOne({
+        const user = await BookingUser.findOne({
             emailVerificationToken: token,
             emailVerificationTokenExpires: { $gt: Date.now() }
         });
