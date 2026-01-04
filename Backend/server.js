@@ -11,21 +11,21 @@ dotenv.config()
 const app = express();
 
 const hostName = '0.0.0.0';
-const port = process.env.PORT || 6060;
+const port = process.env.PORT || 10000;
 
 app.use(express.json());
 app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true
+    origin: process.env.CLIENT_URL,
+    credentials: true
 }));
 app.use("/uploads", express.static("uploads"))
 
 try {
     const mongoConnect = await mongoose.connect(process.env.MONGODB_URL)
-    if(mongoConnect) {
+    if (mongoConnect) {
         console.log("DB Conected !!")
     }
-} catch(err) {
+} catch (err) {
     console.log("Error Connecting DB")
 }
 

@@ -3,7 +3,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import EventsPage from "./components/EventsPage/EventsPage";
 import { fetchAllEvents, fetchMyEvents } from "../../Api/eventsApi";
 import { fetchMyTickets } from "../../Api/ticketApi";
-import { fetchUserAPI } from "../../Api/userApi";
+import { fetchUserAPI } from "../../Api/eventsApi";
 import Loader from "../../Loader/Loader";
 import "./Event.scss";
 
