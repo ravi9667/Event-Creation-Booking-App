@@ -10,7 +10,6 @@ export const fetchMyTickets = async (req, res) => {
             .populate("eventId");
 
         const eventsMap = new Map();
-
         tickets.forEach(ticket => {
             const event = ticket.eventId;
             if (event) {
