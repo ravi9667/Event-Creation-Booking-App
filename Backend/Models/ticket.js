@@ -5,7 +5,7 @@ const TicketSchema = mongoose.Schema(
     {
         userId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "blogUser",
+            ref: "bookingUser",
             required: true
         },
         eventId: {
